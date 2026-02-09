@@ -8,12 +8,13 @@
     body {
       margin: 0;
       height: 100vh;
+      overflow: hidden;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #ffb3c6, #ffe5ec);
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ffb3c6, #ffe5ec);
-      overflow: hidden;
-      font-family: "Segoe UI", sans-serif;
+      position: relative;
     }
 
     .card {
@@ -24,8 +25,8 @@
       max-width: 360px;
       text-align: center;
       box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-      position: relative;
       z-index: 10;
+      position: relative;
     }
 
     h1 {
@@ -41,8 +42,8 @@
       line-height: 1.5;
     }
 
-    #playfulBtn {
-      margin-top: 18px;
+    .btn {
+      margin: 12px 6px 0 6px;
       padding: 12px 24px;
       border: none;
       border-radius: 30px;
@@ -71,7 +72,11 @@
   <div class="card">
     <h1>Hey NTHABELENG 💕</h1>
     <p id="message">I know we can’t be together today… but I still wanted to sit with you for a bit 🫶🏽</p>
-    <button id="playfulBtn">Tap me 💗</button>
+    <button id="playfulBtn" class="btn">Tap me 💗</button>
+    <div id="valentineButtons" style="display:none;">
+      <button id="yesBtn" class="btn">YES 💖</button>
+      <button id="noBtn" class="btn">NO 😏</button>
+    </div>
   </div>
 
   <!-- Music iframe -->
@@ -85,8 +90,7 @@
       "I hope you feel safe, wanted, and loved — even through a screen",
       "You mean more to me than I’m ever brave enough to say out loud",
       "And every time you talk, and I listen…",
-      "maaaakes seeeense 💕",
-      "So… will you be my Valentine? ❤️"
+      "maaaakes seeeense 💕"
     ];
 
     let index = 0;
@@ -95,12 +99,9 @@
     const btn = document.getElementById("playfulBtn");
     const msg = document.getElementById("message");
     const music = document.getElementById("music");
-
-    function randomPosition() {
-      const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-      const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-      btn.style.transform = `translate(${x}px, ${y}px)`;
-    }
+    const valentineDiv = document.getElementById("valentineButtons");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
 
     function createHeart() {
       const heart = document.createElement("div");
@@ -112,6 +113,18 @@
       setTimeout(() => heart.remove(), 4000);
     }
 
+    // Continuous floating hearts
+    setInterval(createHeart, 800);
+
+    // Keep playful button inside view
+    function randomPosition() {
+      const maxX = window.innerWidth - btn.offsetWidth - 20;
+      const maxY = window.innerHeight - btn.offsetHeight - 20;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
     btn.addEventListener("mouseover", () => {
       randomPosition();
       createHeart();
@@ -119,7 +132,6 @@
 
     btn.addEventListener("click", () => {
       if (!firstTap) {
-        // Start music after first successful click
         music.src += "&autoplay=1";
         firstTap = true;
       }
@@ -127,7 +139,26 @@
         msg.innerText = messages[index];
         createHeart();
         index++;
+      } else {
+        // Show Valentine buttons after last message
+        valentineDiv.style.display = "block";
+        btn.style.display = "none";
+        msg.innerText = "So… will you be my Valentine? ❤️";
       }
+    });
+
+    // NO button moves away
+    noBtn.addEventListener("mouseover", () => {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    yesBtn.addEventListener("click", () => {
+      msg.innerText = "🥰 Yay! I’m so happy you said YES! 💕";
+      valentineDiv.style.display = "none";
     });
   </script>
 </body>
