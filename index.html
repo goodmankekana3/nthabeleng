@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For NTHABELENG 💖</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffb3c6, #ffe5ec);
+      overflow: hidden;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 22px;
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: #444;
+      font-size: 16px;
+      min-height: 90px;
+      line-height: 1.5;
+    }
+
+    #playfulBtn {
+      margin-top: 18px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      background: #ff4d6d;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp 4s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {transform: translateY(0) scale(1);}
+      100% {transform: translateY(-200px) scale(0.8); opacity: 0;}
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Hey NTHABELENG 💕</h1>
+    <p id="message">I know we can’t be together today… but I still wanted to sit with you for a bit 🫶🏽</p>
+    <button id="playfulBtn">Tap me 💗</button>
+  </div>
+
+  <!-- Music iframe -->
+  <iframe id="music" width="0" height="0" src="https://www.youtube.com/embed/sJQLQEgqGtw?autoplay=0&loop=1&playlist=sJQLQEgqGtw" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+  <script>
+    const messages = [
+      "This is me being a little shy, but really wanting you to feel how special you are",
+      "Every small thing about you stays with me longer than you probably realise",
+      "If I was there, I’d be quiet… just close to you",
+      "I hope you feel safe, wanted, and loved — even through a screen",
+      "You mean more to me than I’m ever brave enough to say out loud",
+      "And every time you talk, and I listen…",
+      "maaaakes seeeense 💕",
+      "So… will you be my Valentine? ❤️"
+    ];
+
+    let index = 0;
+    let firstTap = false;
+
+    const btn = document.getElementById("playfulBtn");
+    const msg = document.getElementById("message");
+    const music = document.getElementById("music");
+
+    function randomPosition() {
+      const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "💖";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.top = window.innerHeight + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }
+
+    btn.addEventListener("mouseover", () => {
+      randomPosition();
+      createHeart();
+    });
+
+    btn.addEventListener("click", () => {
+      if (!firstTap) {
+        // Start music after first successful click
+        music.src += "&autoplay=1";
+        firstTap = true;
+      }
+      if (index < messages.length) {
+        msg.innerText = messages[index];
+        createHeart();
+        index++;
+      }
+    });
+  </script>
+</body>
+</html>
